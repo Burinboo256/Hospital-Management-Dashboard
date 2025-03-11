@@ -1,10 +1,9 @@
-# HMD
+# Tableau-Admin-EcoSystem
 
 ```mermaid
 graph LR;
 
 da.View_HMD_Data_Source --> da.HMD_LT_visit_OPD
-
 da.View_HMD_Data_Source --> da.HMD_SV_Bedturn_Bedmanagement
 da.View_HMD_Data_Source --> da.HMD_SV_Blockbed_Bedmanagement
 da.View_HMD_Data_Source --> da.HMD_SV_CMI_bedmanagement
@@ -25,8 +24,6 @@ da.View_HMD_Data_Source --> da.HMD_SV_SirirajConnect
 da.View_HMD_Data_Source --> da.HMD_SV_Telemed
 da.View_HMD_Data_Source --> da.HMD_SV_Ultra_Safe
 da.View_HMD_Data_Source --> da.HMD_SV_Unsatisfaction
-
-
 da.HMD_SV_an_IPD --> dbo.T_in_patient
 da.HMD_SV_Bedturn_Bedmanagement --> da.HMD_LT_AM_Bedmanagement
 da.HMD_SV_Blockbed_Bedmanagement --> da.HMD_LT_AM_Bedmanagement
@@ -38,7 +35,6 @@ da.HMD_SV_Infection_Rate --> dbo.T_IC
 da.HMD_SV_Medication_Error_Newformat --> dbo.INTO_in_patient_AllDept
 da.HMD_SV_Medication_Error_Newformat --> dbo.siod_phopd
 da.HMD_SV_Medication_Error_Newformat --> dbo.T_IRMdata
-
 da.HMD_SV_OffCaseOR --> da.T_RM_OffCaseOR_Excel1
 da.HMD_SV_OffCaseOR --> dbo.OSS_SetCase
 da.HMD_SV_OSS --> dbo.OSS_T_Orutilize_ORAdmission
