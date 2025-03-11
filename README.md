@@ -3,7 +3,7 @@
 ```mermaid
 graph LR;
 
-da.View_HMD_Data_Source --> da.HMD_LT_visit_OPD
+
 da.View_HMD_Data_Source --> da.HMD_SV_Bedturn_Bedmanagement
 da.View_HMD_Data_Source --> da.HMD_SV_Blockbed_Bedmanagement
 da.View_HMD_Data_Source --> da.HMD_SV_CMI_bedmanagement
@@ -16,6 +16,7 @@ da.View_HMD_Data_Source --> da.HMD_SV_OffCaseOR
 da.View_HMD_Data_Source --> da.HMD_SV_OSS
 da.View_HMD_Data_Source --> da.HMD_SV_OSS_UT_ROOM
 da.View_HMD_Data_Source --> da.HMD_SV_an_IPD
+da.View_HMD_Data_Source --> da.HMD_LT_visit_OPD
 da.View_HMD_Data_Source --> da.HMD_SV_Readmissionrate
 da.View_HMD_Data_Source --> da.HMD_SV_Revenue_IPD
 da.View_HMD_Data_Source --> da.HMD_SV_Revenue_OPD
@@ -57,6 +58,9 @@ da.HMD_SV_Satisfaction --> SiSurvey.Surveys_Master_Questions
 da.HMD_SV_Satisfaction --> SiSurvey.Surveys_Transaction
 da.HMD_SV_Unsatisfaction --> SiSurvey.Surveys_Master_Questions
 da.HMD_SV_Unsatisfaction --> SiSurvey.Surveys_Transaction
+da.HMD_LT_visit_OPD --> da.HMD_SV_visit_OPD
+da.HMD_LT_AM_Bedmanagement --> da.hospitalbedmanagement_clean_joinmaster
+da.HMD_Financial_Information_of_OPD --> dbo.INTO_Financial_Information_of_OPD
 
 
 style da.View_HMD_Data_Source fill:#ffcc00,stroke:#333,stroke-width:2px;
@@ -94,3 +98,5 @@ style dbo.T_out_patient_visit_details_info fill:#ccffcc,stroke:#333,stroke-width
 style dbo.T_IRMdata fill:#ccffcc,stroke:#333,stroke-width:2px;
 style SiSurvey.Surveys_Master_Questions fill:#ccffcc,stroke:#333,stroke-width:2px;
 style SiSurvey.Surveys_Transaction fill:#ccffcc,stroke:#333,stroke-width:2px;
+
+
