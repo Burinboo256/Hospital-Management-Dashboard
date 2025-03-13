@@ -1,3 +1,4 @@
+```mermaid
 graph LR;
 dbo.View_Financial_Information_of_IPD_5Year --> |Table| dbo.EHIS_IP_ADT_TRN
 dbo.View_Financial_Information_of_IPD_5Year --> |Table| dbo.EHIS_PR_ENCOUNTER
