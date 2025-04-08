@@ -8,267 +8,93 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
 CREATE VIEW [da].[HMD_SV_Unsatisfaction] AS
 
-SELECT --OPD ในเวลา version ใช้งาน OPD (ver.29/03/67)
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 AS [Fiscal_Year]
-	--,DATEADD(YEAR, 543,DATEADD(MONTH,3,CAST(answer_updated_at AS date))) AS test_date
+SELECT YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 AS [Fiscal_Year]
 	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01') AS Actual_Date
-	,'ความไม่พึงพอใจของผู้ป่วยในเวลา (OPD)' AS Type
+	,CASE survey_id 
+		WHEN  '1A493E1F-36D0-4AE7-9918-24A0D7F616CB' THEN 'ความไม่พึงพอใจของผู้ป่วยในเวลา (OPD)'
+		WHEN  '7081D7C5-B059-4E5F-96CA-FD8867B38733' THEN 'ความไม่พึงพอใจของผู้ป่วยในเวลา (IPD)'
+		WHEN  'A72E62F0-75AC-43BF-9BCE-08A6F797DCC9' THEN 'ความไม่พึงพอใจของผู้ป่วยนอกเวลา (OPD)'
+		WHEN  '7624B834-72AB-489D-9A52-C581D2868282' THEN 'ความไม่พึงพอใจของผู้ป่วยนอกเวลา (IPD)'
+	 END AS Type
 	,LEFT(ROUND(COUNT(CASE
-			WHEN (question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
+			WHEN (survey_id in ('1A493E1F-36D0-4AE7-9918-24A0D7F616CB','7081D7C5-B059-4E5F-96CA-FD8867B38733') and question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
+			WHEN (survey_id in ('A72E62F0-75AC-43BF-9BCE-08A6F797DCC9','7624B834-72AB-489D-9A52-C581D2868282') and question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
 			ELSE NULL
-			END ) *1.0 / 
-			
+			END ) * 1.0 
+			/ 
 			COUNT(CASE
-			WHEN question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
+			WHEN survey_id in ('1A493E1F-36D0-4AE7-9918-24A0D7F616CB','7081D7C5-B059-4E5F-96CA-FD8867B38733') and question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
+			WHEN survey_id in ('A72E62F0-75AC-43BF-9BCE-08A6F797DCC9','7624B834-72AB-489D-9A52-C581D2868282') and question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
 			ELSE NULL
 			END),4), 6) AS Result
+
 	,COUNT(CASE
-			WHEN (question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
+			WHEN (survey_id in ('1A493E1F-36D0-4AE7-9918-24A0D7F616CB','7081D7C5-B059-4E5F-96CA-FD8867B38733') and question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
+			WHEN (survey_id in ('A72E62F0-75AC-43BF-9BCE-08A6F797DCC9','7624B834-72AB-489D-9A52-C581D2868282') and question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
 			ELSE NULL
 			END ) AS 'ตัวตั้ง'
 	,COUNT(CASE
-			WHEN question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
+			WHEN survey_id in ('1A493E1F-36D0-4AE7-9918-24A0D7F616CB','7081D7C5-B059-4E5F-96CA-FD8867B38733') and question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
+			WHEN survey_id in ('A72E62F0-75AC-43BF-9BCE-08A6F797DCC9','7624B834-72AB-489D-9A52-C581D2868282') and question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
 			ELSE NULL
 			END) AS 'ตัวหาร'
 	,'OPD' AS BU
 FROM(
-SELECT distinct [response_id]
-    ,[ip_address]
-    ,[collector_type]
-    ,[url]
-    ,[collector_id]
-    ,[date_form_created]
-    ,[date_form_updated]
-    ,t.[survey_id]
-    ,[response_status]
-    ,[answer_rate]
-    ,[review_status]
-    ,[team_id]
-    ,[team_name]
-    ,[answer_created_at]
-    ,[answer_updated_at]
-	,q.survey_name
-,q.ver_name
-    ,t.[question]
-	,q.[question_text]
-    ,t.[question_type]
-    ,t.[answer]
-	,ISNULL(a.[choice_text],t.[answer]) AS [choice_text]
-FROM [SiIMC_MGHT].[SiSurvey].[Surveys_Transaction] AS t WITH (NOLOCK)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS q WITH (NOLOCK)
-	ON t.survey_id = q.survey_id
-		AND	(t.question = q.question_name)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS a WITH (NOLOCK)
-	ON t.survey_id = a.survey_id
-		AND	(t.question = a.question_name)
-		AND	(t.answer = a.choice_name)
-WHERE t.survey_id = '1A493E1F-36D0-4AE7-9918-24A0D7F616CB' --OPD ในเวลา version ใช้งาน OPD (ver.29/03/67)
+		SELECT distinct t.[response_id]
+			,[ip_address]
+			,[collector_type]
+			,[url]
+			,[collector_id]
+			,[date_form_created]
+			,[date_form_updated]
+			,t.[survey_id]
+			,[response_status]
+			,[answer_rate]
+			,[review_status]
+			,[team_id]
+			,[team_name]
+			,[answer_created_at]
+			,[answer_updated_at]
+			,q.survey_name
+		    ,q.ver_name
+			,t.[question]
+			,q.[question_text]
+			,t.[question_type]
+			,t.[answer]
+			,ISNULL(a.[choice_text],t.[answer]) AS [choice_text]
+		FROM [SiIMC_MGHT].[SiSurvey].[Surveys_Transaction] AS t WITH (NOLOCK)
+		LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS q WITH (NOLOCK)
+			ON t.survey_id = q.survey_id
+				AND	(t.question = q.question_name)
+		LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS a WITH (NOLOCK)
+			ON t.survey_id = a.survey_id
+				AND	(t.question = a.question_name)
+				AND	(t.answer = a.choice_name)
+		INNER JOIN
+		(
+			SELECT response_id
+			FROM [SiIMC_MGHT].[SiSurvey].[Surveys_Transaction] WITH (NOLOCK)
+			GROUP BY response_id
+			having count(*) > 1
+		) c 
+		ON t.response_id = c.response_id
+		WHERE t.survey_id in ('1A493E1F-36D0-4AE7-9918-24A0D7F616CB' --OPD ในเวลา version ใช้งาน OPD (ver.29/03/67)
+								,'7081D7C5-B059-4E5F-96CA-FD8867B38733' --IPD ในเวลา version ใช้งาน OPD (ver.29/03/67)
+								,'A72E62F0-75AC-43BF-9BCE-08A6F797DCC9' --OPD นอกเวลา
+								,'7624B834-72AB-489D-9A52-C581D2868282' --IPD นอกเวลา
+								)
 ) a
 
-GROUP BY 
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 
+GROUP BY YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543
 	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01')
-
-
-UNION--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-SELECT --IPD ในเวลา version ใช้งาน OPD (ver.29/03/67)
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 AS [Fiscal_Year]
-	--,DATEADD(YEAR, 543,DATEADD(MONTH,3,CAST(answer_updated_at AS date))) AS test_date
-	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01') AS Actual_Date
-	,'ความไม่พึงพอใจของผู้ป่วยในเวลา (IPD)' AS Type
-	,LEFT(ROUND(COUNT(CASE
-			WHEN (question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
-			ELSE NULL
-			END ) *1.0 / 
-			
-			COUNT(CASE
-			WHEN question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
-			ELSE NULL
-			END),4), 6) AS Result
-	,COUNT(CASE
-			WHEN (question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
-			ELSE NULL
-			END ) AS 'ตัวตั้ง'
-	,COUNT(CASE
-			WHEN question_text = 'ท่าน ไม่ พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
-			ELSE NULL
-			END) AS 'ตัวหาร'
-	,'IPD' AS BU
-FROM(
-SELECT distinct [response_id]
-    ,[ip_address]
-    ,[collector_type]
-    ,[url]
-    ,[collector_id]
-    ,[date_form_created]
-    ,[date_form_updated]
-    ,t.[survey_id]
-    ,[response_status]
-    ,[answer_rate]
-    ,[review_status]
-    ,[team_id]
-    ,[team_name]
-    ,[answer_created_at]
-    ,[answer_updated_at]
-	,q.survey_name
-,q.ver_name
-    ,t.[question]
-	,q.[question_text]
-    ,t.[question_type]
-    ,t.[answer]
-	,ISNULL(a.[choice_text],t.[answer]) AS [choice_text]
-FROM [SiIMC_MGHT].[SiSurvey].[Surveys_Transaction] AS t WITH (NOLOCK)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS q WITH (NOLOCK)
-	ON t.survey_id = q.survey_id
-		AND	(t.question = q.question_name)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS a WITH (NOLOCK)
-	ON t.survey_id = a.survey_id
-		AND	(t.question = a.question_name)
-		AND	(t.answer = a.choice_name)
-WHERE t.survey_id = '7081D7C5-B059-4E5F-96CA-FD8867B38733' --IPD ในเวลา version ใช้งาน OPD (ver.29/03/67)
-) b
-
-GROUP BY 
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 
-	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01')
-
-
-UNION--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-SELECT --OPD นอกเวลา
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 AS [Fiscal_Year]
-	--,DATEADD(YEAR, 543,DATEADD(MONTH,3,CAST(answer_updated_at AS date))) AS test_date
-	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01') AS Actual_Date
-	,'ความไม่พึงพอใจของผู้ป่วยนอกเวลา (OPD)' AS Type
-	,LEFT(ROUND(COUNT(CASE
-			WHEN (question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
-			ELSE NULL
-			END ) *1.0 / 
-			
-			COUNT(CASE
-			WHEN question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
-			ELSE NULL
-			END),4), 6) AS Result
-	,COUNT(CASE
-			WHEN (question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
-			ELSE NULL
-			END ) AS 'ตัวตั้ง'
-	,COUNT(CASE
-			WHEN question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
-			ELSE NULL
-			END) AS 'ตัวหาร'
-	
-	,'OPD' AS BU
-FROM(
-SELECT distinct [response_id]
-    ,[ip_address]
-    ,[collector_type]
-    ,[url]
-    ,[collector_id]
-    ,[date_form_created]
-    ,[date_form_updated]
-    ,t.[survey_id]
-    ,[response_status]
-    ,[answer_rate]
-    ,[review_status]
-    ,[team_id]
-    ,[team_name]
-    ,[answer_created_at]
-    ,[answer_updated_at]
-	,q.survey_name
-,q.ver_name
-    ,t.[question]
-	,q.[question_text]
-    ,t.[question_type]
-    ,t.[answer]
-	,ISNULL(a.[choice_text],t.[answer]) AS [choice_text]
-FROM [SiIMC_MGHT].[SiSurvey].[Surveys_Transaction] AS t WITH (NOLOCK)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS q WITH (NOLOCK)
-	ON t.survey_id = q.survey_id
-		AND	(t.question = q.question_name)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS a WITH (NOLOCK)
-	ON t.survey_id = a.survey_id
-		AND	(t.question = a.question_name)
-		AND	(t.answer = a.choice_name)
-WHERE t.survey_id = 'A72E62F0-75AC-43BF-9BCE-08A6F797DCC9' --OPD นอกเวลา
-) c
-
-GROUP BY 
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 
-	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01')
-
-
-
-UNION--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-SELECT --IPD นอกเวลา
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 AS [Fiscal_Year]
-	--,DATEADD(YEAR, 543,DATEADD(MONTH,3,CAST(answer_updated_at AS date))) AS test_date
-	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01') AS Actual_Date
-	,'ความไม่พึงพอใจของผู้ป่วยนอกเวลา (IPD)' AS Type
-	,LEFT(ROUND(COUNT(CASE
-			WHEN (question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
-			ELSE NULL
-			END ) *1.0 / 
-			
-			COUNT(CASE
-			WHEN question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
-			ELSE NULL
-			END),4), 6) AS Result
-	,COUNT(CASE
-			WHEN (question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด') AND (answer = 'C1' OR answer = 'C2' OR answer = 'C3') AND (answer <> 'None') THEN answer
-			ELSE NULL
-			END ) AS 'ตัวตั้ง'
-	,COUNT(CASE
-			WHEN question_text = 'ท่านไม่พึงพอใจการมารับบริการในครั้งนี้ระดับใด' AND (answer <> 'None') THEN question_text
-			ELSE NULL
-			END) AS 'ตัวหาร'
-	,'IPD' AS BU
-FROM(
-SELECT distinct [response_id]
-    ,[ip_address]
-    ,[collector_type]
-    ,[url]
-    ,[collector_id]
-    ,[date_form_created]
-    ,[date_form_updated]
-    ,t.[survey_id]
-    ,[response_status]
-    ,[answer_rate]
-    ,[review_status]
-    ,[team_id]
-    ,[team_name]
-    ,[answer_created_at]
-    ,[answer_updated_at]
-	,q.survey_name
-,q.ver_name
-    ,t.[question]
-	,q.[question_text]
-    ,t.[question_type]
-    ,t.[answer]
-	,ISNULL(a.[choice_text],t.[answer]) AS [choice_text]
-FROM [SiIMC_MGHT].[SiSurvey].[Surveys_Transaction] AS t WITH (NOLOCK)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS q WITH (NOLOCK)
-	ON t.survey_id = q.survey_id
-		AND	(t.question = q.question_name)
-LEFT JOIN [SiIMC_MGHT].[SiSurvey].[Surveys_Master_Questions] AS a WITH (NOLOCK)
-	ON t.survey_id = a.survey_id
-		AND	(t.question = a.question_name)
-		AND	(t.answer = a.choice_name)
-WHERE t.survey_id = '7624B834-72AB-489D-9A52-C581D2868282' --IPD นอกเวลา
-) d
-
-GROUP BY 
-	YEAR(DATEADD(MONTH,3,CAST(answer_updated_at AS date)))+543 
-	,FORMAT(DATEADD(YEAR,543,CAST(answer_updated_at AS date)), 'yyyy-MM-01')
-
+	,CASE survey_id 
+		WHEN  '1A493E1F-36D0-4AE7-9918-24A0D7F616CB' THEN 'ความไม่พึงพอใจของผู้ป่วยในเวลา (OPD)'
+		WHEN  '7081D7C5-B059-4E5F-96CA-FD8867B38733' THEN 'ความไม่พึงพอใจของผู้ป่วยในเวลา (IPD)'
+		WHEN  'A72E62F0-75AC-43BF-9BCE-08A6F797DCC9' THEN 'ความไม่พึงพอใจของผู้ป่วยนอกเวลา (OPD)'
+		WHEN  '7624B834-72AB-489D-9A52-C581D2868282' THEN 'ความไม่พึงพอใจของผู้ป่วยนอกเวลา (IPD)'
+	 END
 GO
 
 
