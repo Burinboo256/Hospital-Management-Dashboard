@@ -142,7 +142,7 @@ style dbo.OSS_T_Orutilize_ORAdmission fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.OSS_SetCase fill:#ccffcc,stroke:#333,stroke-width:2px;
 style da.T_RM_OffCaseOR_Excel3 fill:#ccffcc,stroke:#333,stroke-width:2px;
 style gold.PD_EH_RL_AM_hospital_bedmanagement fill:#ccffcc,stroke:#333,stroke-width:2px;
-style dbo.M_Discharge Type fill:#ccffcc,stroke:#333,stroke-width:2px;
+style dbo.M_Discharge_Type fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.siod_phopd fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.T_IC fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.T_MR_ENCOUNTER_DRG_INFO fill:#ccffcc,stroke:#333,stroke-width:2px;
@@ -152,5 +152,6 @@ style dbo.EHIS_IP_NURSING_UNIT_BED fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.EHIS_IP_BED_CLASS fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.T_in_patient fill:#ccffcc,stroke:#333,stroke-width:2px;
 style da.machform_er_rpa fill:#ccffcc,stroke:#333,stroke-width:2px;
+
 
 
