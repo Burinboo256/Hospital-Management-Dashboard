@@ -1,4 +1,7 @@
+# 📊 Data Lineage: HMD Data Source 4
+
 ```mermaid
+%%{ init: { "theme": "default", "themeVariables": { "handDrawn": true } } }%%
 graph LR;
 da.View_HMD_Data_Source4 --> |Table| da.HMD_LT_visit_OPD
 da.View_HMD_Data_Source4 --> |View| da.HMD_SV_CMI_bedmanagement
@@ -69,11 +72,12 @@ style gold.PD_EH_RL_AM_hospital_bedmanagement fill:#ccffcc,stroke:#333,stroke-wi
 style dbo.T_IC fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.EHIS_IP_NURSING_UNIT fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.T_smart_user fill:#ccffcc,stroke:#333,stroke-width:2px;
+```
 
-```markdown
-# Diagram 2: Financial Flow
+# 📊 Data Lineage: HMD Data Source 5
 
 ```mermaid
+%%{ init: { "theme": "default", "themeVariables": { "handDrawn": true } } }%%
 graph LR;
 da.View_HMD_Data_Source5 --> |Table| da.HMD_LT_Revenue_OPD
 da.View_HMD_Data_Source5 --> |View| da.HMD_SV_Satisfaction
@@ -163,4 +167,4 @@ style dbo.EHIS_IP_NURSING_UNIT fill:#ccffcc,stroke:#333,stroke-width:2px;
 style dbo.OSS_T_Orutilize_ORAdmission fill:#ccffcc,stroke:#333,stroke-width:2px;
 style gold.PD_EH_RL_AM_hospital_bedmanagement fill:#ccffcc,stroke:#333,stroke-width:2px;
 style silver.PD_EH_HL_LT_ehis_adt_trn_in_patient fill:#ccffcc,stroke:#333,stroke-width:2px;
-
+```
