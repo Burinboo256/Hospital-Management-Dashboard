@@ -1,3 +1,4 @@
+```mermaid
 graph LR;
 da.View_HMD_Data_Source --> |Table| da.HMD_LT_Revenue_OPD
 da.View_HMD_Data_Source --> |Table| da.HMD_LT_visit_OPD
